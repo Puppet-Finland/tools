@@ -17,10 +17,18 @@ git submodule status|while read LINE; do
     cd $MODULE
     git pull --rebase origin
 
-    # Update master project
-    cd $BASEDIR
-    git add $MODULE
-    git commit -m "Updated submodule pointer for $MODULE" -s $MODULE
+    # Check if master project needs to be updated
+    git status|grep "^nothing to commit" > /dev/null
+
+    if [ $? -eq 0 ]; then
+        cd $BASEDIR
+    else
+        cd $BASEDIR
+        git add $MODULE
+        git commit -m "Updated submodule pointer for $MODULE" -s $MODULE
+    fi
+
+
 
 done
 
