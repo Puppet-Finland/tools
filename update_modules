@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Script to rebase all Git submodules against origin and update the master
+# project. Run from the main module directory containing the tools subdirectory.
+# Run from the main module directory containing the tools subdirectory.
+
+# Ensure "git" binary can be found (e.g. if running from cron)
+PATH=$PATH:/usr/bin
+
+git submodule status|while read LINE; do
+
+    MODULE=`echo $LINE|cut -d " " -f 2`
+
+    tools/update_module $MODULE
+
+done
+
