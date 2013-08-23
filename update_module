@@ -15,13 +15,13 @@ echo -n "$MODULE: "
 cd $MODULE
 git pull --rebase origin
 
-# Check if master project needs to be updated
-git status|grep "^nothing to commit" > /dev/null
+cd $BASEDIR
+
+# Check if we need to update the submodule pointer. Later we might want to 
+# consider a cleaner approach.
+git status|grep "modified:.*$MODULE ("
 
 if [ $? -eq 0 ]; then
-    cd $BASEDIR
-else
-    cd $BASEDIR
     git add $MODULE
     git commit -m "Updated submodule pointer for $MODULE" -s $MODULE
 fi
